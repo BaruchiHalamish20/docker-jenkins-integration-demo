@@ -1,11 +1,6 @@
 job('DockerJenkinsIntegrationDsl') {
     description('Build and Publish docker-jenkins-integration-demo using dsl file')
     
-    environment {
-       dockerhub = credentials('dockerhubc')
-       dockerImage = ''
-    }
-    
     scm {
         git {
         remote {
@@ -20,9 +15,28 @@ job('DockerJenkinsIntegrationDsl') {
     }
 
     steps {
+        // maven('install', 'pom.xml')
+        maven {
+           //goals('clean')
+           // goals('verify')
+            goals('install')
+            mavenOpts('-Xms256m')
+            mavenOpts('-Xmx512m')
+            localRepository(LocalRepositoryLocation.LOCAL_TO_WORKSPACE)
+            properties(skipTests: true)
+            mavenInstallation('Maven 3.1.1')
+        }
         dockerBuildAndPublish {
             repositoryName('bhalamish100/docker-jenkins-integration-demo-dsl')
-            registryCredentials('dckr_pat_40Iz2GcwCtW6-G5s_MCEDMbkW-k')
+            tag('${GIT_REVISION,length=7}')
+            registryCredentials('dockerhubc')
+            forcePull(false)
+            createFingerprints(false)
+            skipDecorate()
         }
     }
+    triggers {
+          upstream('docker-jenkins-integration-dsl', threshold = 'SUCCESS')
+    }
+
 }
