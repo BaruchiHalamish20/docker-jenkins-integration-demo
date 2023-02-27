@@ -35,8 +35,8 @@ job('DockerJenkinsIntegrationDsl') {
             skipDecorate()
         }
     }
+    
     triggers {
           upstream('docker-jenkins-integration-dsl', threshold = 'SUCCESS')
     }
-
 }
