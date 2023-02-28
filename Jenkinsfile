@@ -35,7 +35,7 @@ job('DockerJenkinsIntegrationDsl') {
             skipDecorate()
         }
         shell('docker network inspect elbit_network >/dev/null 2>&1 || docker network create --driver=bridge --subnet=172.28.0.0/16 --ip-range=172.28.5.0/24 --gateway=172.28.5.254 elbit_network')
-        shell('docker run -itd --network=elbit_network docker-jenkins-integration-demo-dsl')
+        shell('docker run -itd --network=elbit_network bhalamish100/docker-jenkins-integration-demo-dsl')
     }
     
     triggers {
