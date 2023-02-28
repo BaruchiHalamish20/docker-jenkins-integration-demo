@@ -2,7 +2,9 @@ FROM openjdk:8
 EXPOSE 8080
 ADD target/docker-jenkins-integration-demo.jar docker-jenkins-integration-demo.jar
 
-CMD java -cp 'docker-jenkins-integration-demo.jar' Test
+ENV CLASSPATH=./docker-jenkins-integration-demo.jar
 
-ENTRYPOINT ["ls"]
+CMD java Test
+
+ENTRYPOINT ["echo", "Running test"]
 #ENTRYPOINT ["java","-cp", "docker-jenkins-integration-demo.jar","test"]
