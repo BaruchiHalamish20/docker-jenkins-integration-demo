@@ -1,10 +1,23 @@
 FROM openjdk:8
-EXPOSE 8080
-ADD target/docker-jenkins-integration-demo.jar docker-jenkins-integration-demo.jar
 
-ENV CLASSPATH=./docker-jenkins-integration-demo.jar
+# Set up the Environment Variable for Application
+ENV APP_HOME=/app
 
-CMD java Test
+# Create the directories for Application
+RUN mkdir -p ${APP_HOME}
 
-ENTRYPOINT ["echo", "Running test"]
+# Setting up the Work directory
+WORKDIR ${APP_HOME}
+
+# Copying the artifact from host machine to containers
+COPY target/docker-jenkins-integration-demo.jar  ${APP_HOME}
+
+ENTRYPOINT java -cp docker-jenkins-integration-demo.jar Test
+
+
+#ENV CLASSPATH=./docker-jenkins-integration-demo.jar
+
+#CMD java Test
+
+#ENTRYPOINT ["echo", "Running test"]
 #ENTRYPOINT ["java","-cp", "docker-jenkins-integration-demo.jar","test"]
