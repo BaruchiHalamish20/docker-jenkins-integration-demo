@@ -42,5 +42,5 @@ job('DockerJenkinsIntegrationDsl') {
     triggers {
           upstream('docker-jenkins-integration-dsl', threshold = 'SUCCESS')
     }
-    
+  
 }
